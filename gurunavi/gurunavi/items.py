@@ -15,6 +15,5 @@ class GurunaviItem(scrapy.Item):
     opening_hours = scrapy.Field()  # 営業時間
     regular_holiday = scrapy.Field()  # 定休日
     gurunavi_url = scrapy.Field()  # ぐるなびのurl
-    genre = scrapy.Field()  # ジャンル
-    key_word = scrapy.Field()
-    pass
+    food_genre = scrapy.Field()  # ジャンル
+    key_word = scrapy.Field()  # key_wordは"ベジタリアン"
