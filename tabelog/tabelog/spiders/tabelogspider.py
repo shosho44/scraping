@@ -10,12 +10,16 @@ class TabelogspiderSpider(scrapy.Spider):
     def parse(self, response):
         article_urls_list = response.css('#container > div.rstlist-contents.clearfix > div.flexible-rstlst > div > div.js-rstlist-info.rstlist-info > div > div.list-rst__wrap.js-open-new-window > div > div.list-rst__contents > div > div.list-rst__rst-name-wrap > h4 > a::attr("href")').getall()
         for article_url in article_urls_list:
-            yield scrapy.Request(article_url, self.get_info)
+            yield scrapy.Request(article_url, self.store_detail_url)
         
         is_pagination = response.css('#container > div.rstlist-contents.clearfix > div.flexible-rstlst > div > div.list-pagenation > div > ul > li > a[rel="next"]::attr("href")').get()
         if is_pagination:
             next_page_url = is_pagination
             yield scrapy.Request(next_page_url, self.parse)
         
+    def get_store_detail_url(self, response):
+        store_detail_url = response.css('#rdnavi-coupon > div > a::attr("href")').get()
+        yield scrapy.Request(store_detail_url, self.get_info)
+    
     def get_info(self, response):
         pass
