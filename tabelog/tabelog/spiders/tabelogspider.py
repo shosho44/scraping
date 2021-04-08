@@ -11,6 +11,11 @@ class TabelogspiderSpider(scrapy.Spider):
         article_urls_list = response.css('#container > div.rstlist-contents.clearfix > div.flexible-rstlst > div > div.js-rstlist-info.rstlist-info > div > div.list-rst__wrap.js-open-new-window > div > div.list-rst__contents > div > div.list-rst__rst-name-wrap > h4 > a::attr("href")').getall()
         for article_url in article_urls_list:
             yield scrapy.Request(article_url, self.get_info)
-
+        
+        is_pagination = response.css('#container > div.rstlist-contents.clearfix > div.flexible-rstlst > div > div.list-pagenation > div > ul > li > a[rel="next"]::attr("href")').get()
+        if is_pagination:
+            next_page_url = is_pagination
+            yield scrapy.Request(next_page_url, self.parse)
+        
     def get_info(self, response):
         pass
