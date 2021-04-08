@@ -8,4 +8,9 @@ class TabelogspiderSpider(scrapy.Spider):
                   '&vac_net=&svd=20210407&svt=1900&svps=2&hfc=1&ChkVegetarianMenu=1&sw=']
 
     def parse(self, response):
+        article_urls_list = response.css('#container > div.rstlist-contents.clearfix > div.flexible-rstlst > div > div.js-rstlist-info.rstlist-info > div > div.list-rst__wrap.js-open-new-window > div > div.list-rst__contents > div > div.list-rst__rst-name-wrap > h4 > a::attr("href")').getall()
+        for article_url in article_urls_list:
+            yield scrapy.Request(article_url, self.get_info)
+
+    def get_info(self, response):
         pass
