@@ -58,11 +58,19 @@ class TabelogspiderSpider(scrapy.Spider):
             if '交通手段' in th_content:
                 transportation = td_content
                 item['transportation'] = transportation
+            if 'ドリンク' in th_content:
+                drink = td_content
+                item['drink'] = drink
             if 'ホームページ' in th_content:
                 store_homepage = td_content
                 item['store_homepage'] = store_homepage
             if '予算' == th_content:
                 budget = td_content
                 item['budget'] = budget
-
+            if '禁煙・喫煙' in th_content:
+                smoking_ok_or_no = td_content
+                item['smoking_ok_or_no'] = smoking_ok_or_no
+            if 'お店のPR' in th_content:
+                store_strong_point = td_content
+                item['store_strong_point'] = store_strong_point
         yield item
