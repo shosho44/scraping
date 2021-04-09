@@ -1,5 +1,6 @@
 import scrapy
 
+from tabelog.items import TabelogItem
 
 class TabelogspiderSpider(scrapy.Spider):
     name = 'tabelogspider'
@@ -18,6 +19,8 @@ class TabelogspiderSpider(scrapy.Spider):
             yield scrapy.Request(next_page_url, self.parse)
     
     def get_info(self, response):
+        item = TabelogItem()
+
         item['store_url_of_tabelog'] = response.url
         store_score = response.css('#js-detail-score-open > p > b > span::text').get()
         item['score_score'] = store_score
