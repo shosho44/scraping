@@ -14,6 +14,9 @@ class TabelogItem(scrapy.Item):
     phone_number = scrapy.Field()  # 電話番号
     store_homepage = scrapy.Field()  # 店舗のホームページ
     reservation_availability = scrapy.Field()  # 予約可能かどうか
-    transportaton = scrapy.Field()  # 交通手段
+    transportation = scrapy.Field()  # 交通手段
     store_score = scrapy.Field()  # 星評価数
     budget = scrapy.Field()  # 予算
+    store_strong_point = scrapy.Field()  # お店のPR
+    drink = scrapy.Field()  # ドリンクの種類
+    smoking_ok_or_no = scrapy.Field()  # 喫煙禁煙どちらか
