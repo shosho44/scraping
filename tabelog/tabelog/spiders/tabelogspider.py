@@ -32,10 +32,11 @@ class TabelogspiderSpider(scrapy.Spider):
 
         item['store_url_of_tabelog'] = response.url
         store_score = response.css('#js-detail-score-open > p > b > span::text').get()
-        item['store_score'] = store_score
+        if store_score != '-':
+            item['store_score'] = store_score
         is_phone_number = response.css('#column-side > div > div > div > div > div > div > div > p::text').get()
         if is_phone_number is not None:
-            phone_number = is_phone_number
+            phone_number = is_phone_number.translate(replace_table)
             item['phone_number'] = phone_number
         
         table_tr_selectors = response.css('#rst-data-head > table > tbody > tr')
@@ -52,7 +53,7 @@ class TabelogspiderSpider(scrapy.Spider):
                 reservation_availability = td_content
                 item['reservation_availability'] = reservation_availability
             if '住所' in th_content:
-                location = td_content
+                location = td_content.replace('大きな地図を見る周辺のお店を探す', '')
                 item['location'] = location
             if '交通手段' in th_content:
                 transportation = td_content
