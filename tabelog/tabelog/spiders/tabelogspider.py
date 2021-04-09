@@ -23,7 +23,7 @@ class TabelogspiderSpider(scrapy.Spider):
 
         item['store_url_of_tabelog'] = response.url
         store_score = response.css('#js-detail-score-open > p > b > span::text').get()
-        item['score_score'] = store_score
+        item['store_score'] = store_score
         is_phone_number = response.css('#column-side > div > div > div > div > div > div > div > p::text').get()
         if is_phone_number is not None:
             phone_number = is_phone_number
@@ -32,7 +32,7 @@ class TabelogspiderSpider(scrapy.Spider):
         table_tr_selectors = response.css('#rst-data-head > table > tbody > tr')
         for table_tr_selector in table_tr_selectors:
             th_content = ''.join(table_tr_selector.css('th ::text').getall())
-            td_content = ''.join(table_td_selector.css('td ::text').getall())
+            td_content = ''.join(table_tr_selector.css('td ::text').getall())
             if '店名' in th_content:
                 store_name = td_content
                 item['store_name'] = store_name
@@ -46,8 +46,8 @@ class TabelogspiderSpider(scrapy.Spider):
                 location = td_content
                 item['location'] = location
             if '交通手段' in th_content:
-                transportaton = td_content
-                item['transportation'] = transportaton
+                transportation = td_content
+                item['transportation'] = transportation
             if 'ホームページ' in th_content:
                 store_homepage = td_content
                 item['store_homepage'] = store_homepage
