@@ -2,6 +2,15 @@ import scrapy
 
 from tabelog.items import TabelogItem
 
+replace_table = str.maketrans({
+    '\u3000': '',
+    ' ': '',
+    '\t': '',
+    '\n': '',
+    '\r': ''
+})
+
+
 class TabelogspiderSpider(scrapy.Spider):
     name = 'tabelogspider'
     allowed_domains = ['tabelog.com']
@@ -32,7 +41,7 @@ class TabelogspiderSpider(scrapy.Spider):
         table_tr_selectors = response.css('#rst-data-head > table > tbody > tr')
         for table_tr_selector in table_tr_selectors:
             th_content = ''.join(table_tr_selector.css('th ::text').getall())
-            td_content = ''.join(table_tr_selector.css('td ::text').getall())
+            td_content = ''.join(table_tr_selector.css('td ::text').getall()).translate(replace_table)
             if '店名' in th_content:
                 store_name = td_content
                 item['store_name'] = store_name
