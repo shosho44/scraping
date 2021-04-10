@@ -73,4 +73,5 @@ class TabelogspiderSpider(scrapy.Spider):
             if 'お店のPR' in th_content:
                 store_strong_point = td_content
                 item['store_strong_point'] = store_strong_point
+
         yield item
