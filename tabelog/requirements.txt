@@ -1,0 +1,3 @@
+###### Requirements with Version Specifiers ######`
+Python == 3.6.5             # Version Matching. Must be version 3.6.5
+Scrapy == 2.4.1             # Version Matching. Must be version 2.4.1
