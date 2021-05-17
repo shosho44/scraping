@@ -1,5 +1,13 @@
 import scrapy
 
+import time
+
+import chromedriver_binary  # nopa
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium import webdriver
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
 from tabelog.items import TabelogItem
 
 replace_table = str.maketrans({
@@ -14,9 +22,40 @@ replace_table = str.maketrans({
 class TabelogspiderSpider(scrapy.Spider):
     name = 'tabelogspider'
     allowed_domains = ['tabelog.com']
-    start_urls = ['https://tabelog.com/kyoto/C26100/rstLst/?vs=1&sa=%E4%BA%AC%E9%83%BD%E5%B8%82&sk=%25E3%2583%2599%25E3%2582%25B8%25E3%2582%25BF%25E3%2583%25AA%25E3%2582%25A2%25E3%2583%25B3&lid=top_navi1'
-                  '&vac_net=&svd=20210407&svt=1900&svps=2&hfc=1&ChkVegetarianMenu=1&sw=']
 
+    def __init__(self, area='', keyword=''):
+        options = webdriver.ChromeOptions()
+        # options.add_argument('--headless')
+        driver = webdriver.Chrome(options=options)  # chrome起動
+        driver.implicitly_wait(10)
+        driver.get('https://tabelog.com/')
+        driver.maximize_window()
+        
+        wait = WebDriverWait(driver, 15)
+        
+        area_form_css_selector = '#sa'
+        area_form_element = driver.find_element_by_css_selector(area_form_css_selector)
+        area_form_element.send_keys(area)
+        
+        time.sleep(1)
+        keyword_form_css_selector = '#sk'
+        keyword_form_element = driver.find_element_by_css_selector(keyword_form_css_selector)
+        keyword_form_element.send_keys(keyword)
+        
+        time.sleep(1)
+        
+        search_button_css_selector = '#js-global-search-btn'
+        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, search_button_css_selector)))
+        driver.implicitly_wait(15)
+        driver.find_element_by_css_selector(search_button_css_selector).click()
+        
+        time.sleep(1)
+        
+        current_url = driver.current_url
+        self.start_urls = [current_url]
+        
+        driver.close()
+        
     def parse(self, response):
         article_urls_list = response.css('#container > div.rstlist-contents.clearfix > div.flexible-rstlst > div > div.js-rstlist-info.rstlist-info > div > div.list-rst__wrap.js-open-new-window > div > div.list-rst__contents > div > div.list-rst__rst-name-wrap > h4 > a::attr("href")').getall()
         for article_url in article_urls_list:
