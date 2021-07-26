@@ -2,7 +2,7 @@ import scrapy
 
 import time
 
-import chromedriver_binary  # nopa
+import chromedriver_binary
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC

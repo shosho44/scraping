@@ -1,0 +1,5 @@
+###### Requirements with Version Specifiers ######`
+Scrapy == 2.5.0
+selenium == 3.141.0
+chromedriver-binary == 89.0.4389.23.0  # クロームのバージョンに対応したバージョンのchromedriver-binaryをインストールしてください。対応するバージョンのインストールのための参考url:https://pypi.org/project/chromedriver-binary/
+chromedriver-binary-auto == 0.1.1

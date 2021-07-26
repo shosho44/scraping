@@ -20,3 +20,5 @@ scrapy crawl tabelogspider -a area=世田谷区
 scrapy crawl tabelogspider  
 scrapy crawl tabelogspider -o tabelog.csv  
 scrapy crawl tabelogspider -a area=東京都 -o tabelog.csv  
+## Attention
+requirements.txtに記述しているchromedriver-binaryはローカルのchromeのバージョンによってインストールするバージョンが異なります。
